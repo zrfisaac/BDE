@@ -1,7 +1,7 @@
 ﻿; # [ zrfisaac ]
 
-; # [ sobre ]
-; # - autor : Isaac Santana
+; # [ about ]
+; # - author : Isaac Santana
 ; # . - email : zrfisaac@gmail.com
 ; # . - site : zrfisaac.github.io
 
@@ -19,11 +19,17 @@ InstallDir "$PROGRAMFILES\Common Files\Borland Shared\BDE"
 InstallDirRegKey HKLM "SOFTWARE\BDE" ""
 RequestExecutionLevel Admin
 
-; # - Imagens
-!define MUI_ICON "..\Resources\Program Files (x86)\Common Files\Borland Shared\BDE\bdeadmin.ico" 
-!define MUI_UNICON "..\Resources\Program Files (x86)\Common Files\Borland Shared\BDE\bdeadmin.ico" 
+; # - Pictures
+!define MUI_ICON "Pictures\Installer.ico" 
+!define MUI_UNICON "Pictures\Uninstaller.ico" 
+!define MUI_HEADERIMAGE
+!define MUI_HEADERIMAGE_RIGHT
+!define MUI_HEADERIMAGE_BITMAP "Pictures\InstallerHeader.bmp"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "Pictures\InstallerBanner.bmp"
+!define MUI_HEADERIMAGE_UNBITMAP  "Pictures\UninstallerHeader.bmp"
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP "Pictures\UninstallerBanner.bmp"
 
-; # - Atalhos
+; # - Shortcuts
 !define MUI_FINISHPAGE_RUN
 !define MUI_FINISHPAGE_RUN_TEXT "$(MUI_Shortcut)"
 !define MUI_FINISHPAGE_RUN_FUNCTION "fnShortcut"
@@ -34,45 +40,45 @@ FunctionEnd
 ; # - Interface
 !define MUI_ABORTWARNING
 
-; # - Pagina - Instalador
+; # - Page - Installer
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
 
-; # - Pagina - Desinstalador
+; # - Page - Uninstaller
 !insertmacro MUI_UNPAGE_WELCOME
 !insertmacro MUI_UNPAGE_CONFIRM
 !insertmacro MUI_UNPAGE_INSTFILES
 !insertmacro MUI_UNPAGE_FINISH
 
-; # - Idioma
+; # - Language
 !insertmacro MUI_LANGUAGE "PortugueseBR"
 Function .onInit
   !insertmacro MUI_LANGDLL_DISPLAY
 FunctionEnd
 
-; # - Traducao
+; # - Translation
 LangString MUI_Shortcut ${LANG_PORTUGUESEBR} "Criar atalho na área de trabalho"
 
-; # - Instalador - BDE
+; # - Installer - BDE
 Section BDE
-	; # : - Obrigatorio
+	; # : - Required
 	SectionIn RO
 
-	; # : - Arquivos
+	; # : - Files
 	SetOutPath "$INSTDIR"
-	File "..\DLLs\ntwdblib.dll"
-	File "..\Recursos\Program Files (x86)\Common Files\Borland Shared\BDE\*.*"
+	File "DLLs\ntwdblib.dll"
+	File "Resources\Program Files (x86)\Common Files\Borland Shared\BDE\*.*"
 
-	; # : - Desinstalador
+	; # : - Uninstaller
 	WriteUninstaller "$INSTDIR\Uninstall.exe"
 
-	; # : - Atalhos
+	; # : - Shortcuts
 	CreateDirectory "$SMPROGRAMS\"
 	CreateShortCut "$SMPROGRAMS\BDE.lnk" "$INSTDIR\bdeadmin.exe" "" "$INSTDIR\bdeadmin.ico"
 
-	; # : - Painel de Controle
+	; # : - Control Panel
 	WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\BDE" "DisplayName" "BDE 5.2.0.2"
 	WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\BDE" "UninstallString" "$\"$INSTDIR\Uninstall.exe$\""
 	WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\BDE" "QuietUninstallString" "$\"$INSTDIR\Uninstall.exe$\" /S"
@@ -86,7 +92,7 @@ Section BDE
 	WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\BDE" "NoRepair" 2
 	WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\BDE" "EstimatedSize" 46227 ;KB
 
-	; # : - Registros
+	; # : - Registry
 	WriteRegStr HKLM "SOFTWARE\Borland\Database Engine" "CONFIGFILE01" "$INSTDIR\IDAPI32.CFG"
 	WriteRegStr HKLM "SOFTWARE\Borland\Database Engine" "DLLPath" "$INSTDIR\"
 	WriteRegStr HKLM "SOFTWARE\Borland\Database Engine" "RESOURCE" "0009"
@@ -126,20 +132,20 @@ Section BDE
 	WriteRegStr HKLM "SOFTWARE\Borland\Database Engine\Settings\DRIVERS\MSSQL\INIT" "MAX DBPROCESSES" "31"
 SectionEnd
 
-; # - Desinstalador - BDE
+; # - Uninstaller - BDE
 Section Un.BDE
-	; # : - Obrigatorio
+	; # : - Required
 	SectionIn RO
 
-	; # : - Arquivos
+	; # : - Files
 	Delete "$INSTDIR\*.*"
 	RMDir /r "$INSTDIR"
 
-	; # : - Atalhos
+	; # : - Shortcuts
 	Delete "$INSTDIR\BDE.lnk"
 	RMDir /r "$SMPROGRAMS\BDE"
 
-	; # : - Registros
+	; # : - Registry
 	DeleteRegKey HKLM "SOFTWARE\BDE"
 	DeleteRegKey HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\BDE"
 SectionEnd
