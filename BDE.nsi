@@ -58,6 +58,17 @@ Function .onInit
   !insertmacro MUI_LANGDLL_DISPLAY
 FunctionEnd
 
+; # - Version
+VIProductVersion "5.2.0.2"
+VIAddVersionKey "ProductName" "BDE"
+VIAddVersionKey "Comments" ""
+VIAddVersionKey "CompanyName" "Borland"
+VIAddVersionKey "LegalTrademarks" "Borland"
+VIAddVersionKey "LegalCopyright" "Borland"
+VIAddVersionKey "FileDescription" "BDE"
+VIAddVersionKey "FileVersion" "5.2.0.2"
+VIAddVersionKey "ProductVersion" "5.2.0.2"
+
 ; # - Translation
 LangString MUI_Shortcut ${LANG_PORTUGUESEBR} "Criar atalho na área de trabalho"
 
